@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DVD-Style Bouncing Text</title>
+  <style>
+    /* Reset margins and padding */
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Make the background image fill the screen */
+    body {
+      background: url("https://mountathletics.com/images/2022/8/25/Ruona__John.JPG") no-repeat center center fixed;
+      background-size: 100% 100%;
+      overflow: hidden; /* Prevent scrollbars when text hits edges */
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Container for the bouncing text */
+    #bouncingText {
+      position: absolute;
+      font-size: 48px;
+      font-weight: bold;
+      color: #fff;
+      user-select: none; /* Prevent text selection */
+    }
+  </style>
+</head>
+<body>
+
+  <div id="bouncingText">You just got phished!!</div>
+
+  <script>
+    // Grab the text element
+    const text = document.getElementById("bouncingText");
+
+    // Set initial position and velocity
+    let posX = 100;
+    let posY = 100;
+    let velX = 3;  // horizontal speed
+    let velY = 3;  // vertical speed
+
+    // Create an array of colors to cycle through
+    const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
+    let colorIndex = 0;
+
+    function bounce() {
+      // Update position
+      posX += velX;
+      posY += velY;
+
+      // Get window width/height and text width/height
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const textWidth = text.offsetWidth;
+      const textHeight = text.offsetHeight;
+
+      // Check for boundary collision (left/right)
+      if (posX + textWidth >= windowWidth || posX <= 0) {
+        velX = -velX;
+        colorIndex = (colorIndex + 1) % colors.length;
+        text.style.color = colors[colorIndex];
+      }
+
+      // Check for boundary collision (top/bottom)
+      if (posY + textHeight >= windowHeight || posY <= 0) {
+        velY = -velY;
+        colorIndex = (colorIndex + 1) % colors.length;
+        text.style.color = colors[colorIndex];
+      }
+
+      // Apply new positions
+      text.style.left = posX + "px";
+      text.style.top = posY + "px";
+
+      // Use requestAnimationFrame for smooth animation
+      requestAnimationFrame(bounce);
+    }
+
+    // Start the animation
+    bounce();
+  </script>
+
+</body>
+</html>
